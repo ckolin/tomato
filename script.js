@@ -3,13 +3,67 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
 const options = {
-	durations: {
-		work: 25,
-		shortBreak: 5,
-		longBreak: 15
+	sections: {
+		work: {label: "work", duration: 25 * 60},
+		shortBreak: {label: "short break", duration: 5 * 60},
+		longBreak: {label: "long break", duration: 15 * 60}
 	},
+	longBreakAfter: 4,
+	//colors: ["#00303b", "#ff7777", "#ffce96", "#f1f2da"],
 	enableNotifications: true
 };
+
+const state = {
+	index: 0,
+	remaining: 0,
+	running: false
+};
+
+const worker = new Worker("tick_worker.js");
+
+const getSection = (i) => {
+	if (i % 2 === 0)
+		return "work";
+	else if ((i + 1) % (2 * options.longBreakAfter) === 0)
+		return "longBreak";
+	else return "shortBreak";
+};
+
+const start = () => {
+	if (Notification.permission === "default")
+		Notification.requestPermission();
+
+	if (state.remaining === 0) {
+		const section = options.sections[getSection(state.index)];
+		state.remaining = section.duration;
+		dbg(section.label);
+	}
+
+	worker.postMessage("start");
+	state.running = true;
+};
+
+const stop = () => {
+	worker.postMessage("stop");
+	state.running = false;
+};
+
+const tick = () => {
+	state.remaining--;
+	dbg(state.remaining);
+	if (state.remaining === 0) {
+		worker.postMessage("stop");
+		state.running = false;
+		state.index++;
+
+		const section = options.sections[getSection(state.index)];
+		new Notification("Time's up!", {
+			body: `Next up: ${section.label}`,
+			icon: icon.toDataURL("image/png")});
+	}
+};
+
+worker.addEventListener("message", tick);
 
 // donut
 ctx.lineWidth = 20;
@@ -22,10 +76,6 @@ ctx.strokeStyle = "red";
 ctx.arc(50, 50, 25, -0.5 * Math.PI, 2);
 ctx.stroke();
 
-let count = 0;
-const worker = new Worker("worker.js");
-worker.addEventListener("message", e => document.title = ++count);
-worker.postMessage("start");
 // dynamic icon
 const icon = document.createElement("canvas");
 const iconCtx = icon.getContext("2d");
