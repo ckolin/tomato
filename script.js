@@ -11,6 +11,7 @@ const options = {
 	enableNotifications: true
 };
 
+// donut
 ctx.lineWidth = 20;
 ctx.lineCap = "round";
 ctx.strokeStyle = "green";
@@ -25,6 +26,21 @@ let count = 0;
 const worker = new Worker("worker.js");
 worker.addEventListener("message", e => document.title = ++count);
 worker.postMessage("start");
+// dynamic icon
+const icon = document.createElement("canvas");
+const iconCtx = icon.getContext("2d");
+icon.width = icon.height = 64;
+iconCtx.rotate(0.3);
+iconCtx.fillStyle = "red";
+iconCtx.fillRect(20, 0, 40, 40);
+iconCtx.fillStyle = "green";
+iconCtx.fillRect(30, 20, 10, 10);
+const link = document.getElementById("icon");
+link.href = icon.toDataURL(link.type);
+
+// save options
+localStorage.setItem("tomato-options", JSON.stringify(options));
+localStorage.getItem("tomato-options");
 
 // start at current time
 // while cirle not done, add next segments
@@ -39,6 +55,7 @@ worker.postMessage("start");
 // settings that can be toggled
 // work, short break, long break
 // store settings in localstorage
-// dark/light theme from system setting
+// dark/light theme from system setting?
+// favicon that shows progress
 
 // web worker for time updates
