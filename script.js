@@ -79,14 +79,13 @@ const tick = () => {
 const update = () => {
 	const section = options.sections[getSection(state.index)];
 	const progress = 1 - state.remaining / section.duration;
-	const timeLeft = state.remaining >= 60 ? `${Math.round(state.remaining / 60)}min` : `${state.remaining}s`;
+	const timeLeft = state.remaining >= 60 ? `${Math.round(state.remaining / 60)}` : `${state.remaining}`;
 
 	// Update GUI elements
 	document.getElementById("current-section").innerText = section.label;
 	document.getElementById("next-section").innerText = options.sections[getSection(state.index + 1)].label;
 	document.getElementById("progress-bar").style.width = `${progress * 100}%`;
-	// TODO: Show remaining time
-	//document.getElementById("time-left").innerText = timeLeft;
+	document.getElementById("time-left").innerText = timeLeft;
 
 	// Update page title
 	document.title = `${timeLeft} - ${section.label}`;
@@ -112,7 +111,7 @@ const update = () => {
 const init = () => {
 	if (dbg()) {
 		// Shorten durations for debugging
-		Object.keys(options.sections).forEach(s => options.sections[s].duration /= 5 * 60);
+		Object.keys(options.sections).forEach(s => options.sections[s].duration /= 60);
 	}
 
 	// Listen to timer

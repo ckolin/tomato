@@ -4,18 +4,31 @@
 	--color-next: #000;
 }
 
-main {
+body {
 	position: absolute;
-	top: 10%;
-	left: 10%;
-	width: 16rem;
-	border-radius: 1rem;
-	box-shadow: 0.2rem 0.2rem 1rem rgba(0, 0, 0, 0.5);
-	padding: 1.4rem;
-	font-size: 1.2em;
+	width: 60vw;
+	top: 20vh;
+	left: 20vw;
+	margin: 0;
+	font-size: 4em;
 	font-family: sans-serif;
 	font-weight: bold;
 	background: var(--color-background);
+}
+
+body span {
+	display: block;
+	width: 100%;
+}
+
+#time-left {
+	position: absolute;
+	top: -0.3em;
+	text-align: center;
+	font-size: 8em;
+	color: var(--color-current);
+	z-index: -1;
+	opacity: 0.1;
 }
 
 #current-section {
@@ -25,18 +38,16 @@ main {
 }
 
 #next-section {
-	float: right;
+	text-align: right;
 	color: var(--color-next);
-	opacity: 0.5;
+	filter: brightness(50%);
 	transition: color 400ms;
 	cursor: pointer;
 }
 
 #progress-bar {
-	height: 2rem;
-	min-width: 2rem;
-	margin-top: 1rem;
-	border-radius: 1rem;
+	height: 1em;
+	margin: 0.5em 0 0.5em 0;
 	background: var(--color-current);
 	transition: width 200ms, color 400ms;
 }

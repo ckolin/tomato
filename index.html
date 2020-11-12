@@ -8,12 +8,10 @@
 	<link id="icon" rel="shortcut icon" type="image/x-icon">
 </head>
 <body>
-	<main>
-		<span id="current-section" onclick="toggle()"></span>
-		<span id="next-section" onclick="setSection(state.index + 1); update()"></span>
-		<div id="progress-bar"></div>
-		<span id="time-left"></span>
-	</main>
+	<span id="time-left"></span>
+	<span id="current-section" onclick="toggle()"></span>
+	<div id="progress-bar"></div>
+	<span id="next-section" onclick="setSection(state.index + 1); update()"></span>
 	<script src="script.js"></script>
 </body>
 </html>
