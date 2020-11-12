@@ -7,13 +7,12 @@ const dbg = (obj) => {
 
 const options = {
 	sections: {
-		work: {label: "work", duration: 25 * 60},
-		shortBreak: {label: "short break", duration: 5 * 60},
-		longBreak: {label: "long break", duration: 15 * 60}
+		work: {label: "WORK", duration: 25 * 60, color: "#f7b58c"},
+		shortBreak: {label: "SHORT BREAK", duration: 5 * 60, color: "#84739c"},
+		longBreak: {label: "LONG BREAK", duration: 15 * 60, color: "#ffefff"}
 	},
 	longBreakAfter: 4,
-	//colors: ["#00303b", "#ff7777", "#ffce96", "#f1f2da"],
-	enableNotifications: true
+	backgroundColor: "#181010"
 };
 
 const state = {
@@ -32,42 +31,107 @@ const getSection = (i) => {
 	else return "shortBreak";
 };
 
+const setSection = (i) => {
+	state.index = i;
+	const section = options.sections[getSection(state.index)];
+	state.remaining = section.duration;
+};
+
 const start = () => {
-	if (Notification.permission === "default")
-		Notification.requestPermission();
-
-	if (state.remaining === 0) {
-		const section = options.sections[getSection(state.index)];
-		state.remaining = section.duration;
-		dbg(section.label);
-	}
-
+	dbg("starting timer");
 	worker.postMessage("start");
 	state.running = true;
+
+	// Request notification permission
+	if (Notification.permission === "default")
+		Notification.requestPermission();
 };
 
 const stop = () => {
+	dbg("stopping timer");
 	worker.postMessage("stop");
 	state.running = false;
 };
 
+const toggle = () => state.running ? stop() : start();
+
 const tick = () => {
 	state.remaining--;
-	dbg(state.remaining);
-	if (state.remaining === 0) {
-		worker.postMessage("stop");
-		state.running = false;
-		state.index++;
+	dbg(`${state.remaining} sec remaining`);
 
-		const section = options.sections[getSection(state.index)];
+	// Check if section has finished
+	if (state.remaining === 0) {
+		// Stop the timer
+		stop();
+
+		// Move to next section
+		setSection(state.index + 1);		
+		
+		// Alert user
 		new Notification("Time's up!", {
-			body: `Next up: ${section.label}`,
-			icon: icon.toDataURL("image/png")});
+			body: `Next up: ${options.sections[getSection(state.index)].label}`,
+			/*icon: icon.toDataURL("image/png")*/});
 	}
+
+	update();
 };
 
-worker.addEventListener("message", tick);
+const update = () => {
+	const section = options.sections[getSection(state.index)];
+	const progress = 1 - state.remaining / section.duration;
+	const timeLeft = state.remaining >= 60 ? `${Math.round(state.remaining / 60)}min` : `${state.remaining}s`;
 
+	// Update GUI elements
+	document.getElementById("current-section").innerText = section.label;
+	document.getElementById("next-section").innerText = options.sections[getSection(state.index + 1)].label;
+	document.getElementById("progress-bar").style.width = `${progress * 100}%`;
+	// TODO: Show remaining time
+	//document.getElementById("time-left").innerText = timeLeft;
+
+	// Update page title
+	document.title = `${timeLeft} - ${section.label}`;
+	
+	// Update colors
+	const style = document.querySelector(":root").style;
+	style.setProperty("--color-background", options.backgroundColor);
+	style.setProperty("--color-current", options.sections[getSection(state.index)].color);
+	style.setProperty("--color-next", options.sections[getSection(state.index + 1)].color);
+
+	// Update favicon
+	const icon = document.createElement("canvas");
+	const ctx = icon.getContext("2d");
+	const s = icon.width = icon.height = 32;
+	ctx.fillStyle = options.backgroundColor;
+	ctx.fillRect(0, 0, s, s);
+	ctx.fillStyle = section.color;
+	ctx.fillRect(0, 0, s * progress, s);
+	const link = document.getElementById("icon");
+	link.href = icon.toDataURL(link.type);
+};
+
+const init = () => {
+	if (dbg()) {
+		// Shorten durations for debugging
+		Object.keys(options.sections).forEach(s => options.sections[s].duration /= 5 * 60);
+	}
+
+	// Listen to timer
+	worker.addEventListener("message", tick);
+
+	// Register spacebar shortcut
+	document.addEventListener("keyup", e => {
+		if (e.key === " ")
+			toggle();
+	});
+
+	// Show first section
+	setSection(state.index);
+	update();
+};
+
+init();
+
+/*
 // donut
 ctx.lineWidth = 20;
 ctx.lineCap = "round";
@@ -79,21 +143,11 @@ ctx.strokeStyle = "red";
 ctx.arc(50, 50, 25, -0.5 * Math.PI, 2);
 ctx.stroke();
 
-// dynamic icon
-const icon = document.createElement("canvas");
-const iconCtx = icon.getContext("2d");
-icon.width = icon.height = 64;
-iconCtx.rotate(0.3);
-iconCtx.fillStyle = "red";
-iconCtx.fillRect(20, 0, 40, 40);
-iconCtx.fillStyle = "green";
-iconCtx.fillRect(30, 20, 10, 10);
-const link = document.getElementById("icon");
-link.href = icon.toDataURL(link.type);
 
 // save options
 localStorage.setItem("tomato-options", JSON.stringify(options));
 localStorage.getItem("tomato-options");
+*/
 
 // start at current time
 // while cirle not done, add next segments

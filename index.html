@@ -9,7 +9,10 @@
 </head>
 <body>
 	<main>
-		<canvas id="canvas"></canvas>
+		<span id="current-section" onclick="toggle()"></span>
+		<span id="next-section" onclick="setSection(state.index + 1); update()"></span>
+		<div id="progress-bar"></div>
+		<span id="time-left"></span>
 	</main>
 	<script src="script.js"></script>
 </body>
