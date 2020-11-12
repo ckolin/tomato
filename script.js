@@ -45,6 +45,7 @@ const start = () => {
 	dbg("starting timer");
 	worker.postMessage("start");
 	state.running = true;
+	update();
 
 	// Request notification permission
 	if (Notification.permission === "default")
@@ -55,6 +56,7 @@ const stop = () => {
 	dbg("stopping timer");
 	worker.postMessage("stop");
 	state.running = false;
+	update();
 };
 
 const toggle = () => state.running ? stop() : start();
@@ -83,7 +85,9 @@ const tick = () => {
 const update = () => {
 	const section = options.sections[getSection(state.index)];
 	const progress = 1 - state.remaining / section.duration;
-	const timeLeft = state.remaining >= 60 ? `${Math.round(state.remaining / 60)}` : `${state.remaining}`;
+	let timeLeft = state.remaining >= 60 ? `${Math.round(state.remaining / 60)}` : `${state.remaining}`;
+	if (!state.running)
+		timeLeft = "X";
 
 	// Update GUI elements
 	document.getElementById("current-section").innerText = section.label;
