@@ -1,6 +1,9 @@
-const dbg = (obj) => { console.log(obj); return obj; };
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
+const dbg = (obj) => {
+	const debug = location.hash === "#debug";
+	if (debug && obj != null)
+		console.log(obj);
+	return obj == null ? debug : obj;
+};
 
 const options = {
 	sections: {
