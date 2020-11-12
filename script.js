@@ -32,9 +32,13 @@ const getSection = (i) => {
 };
 
 const setSection = (i) => {
+	stop();
+
 	state.index = i;
 	const section = options.sections[getSection(state.index)];
 	state.remaining = section.duration;
+
+	update();
 };
 
 const start = () => {
