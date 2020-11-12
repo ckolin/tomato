@@ -10,7 +10,7 @@ self.addEventListener("message", e => {
 			counted = count;
 			for (let i = 0; i < gap; i++)
 				postMessage("tick");
-		}, 1000);
+		}, 500);
 	} else if (e.data === "stop") {
 		clearInterval(interval);
 	}
