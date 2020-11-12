@@ -68,8 +68,8 @@ const tick = () => {
 		setSection(state.index + 1);		
 		
 		// Alert user
-		new Notification("Time's up!", {
-			body: `Next up: ${options.sections[getSection(state.index)].label}`,
+		new Notification("Time is up!", {
+			body: `${options.sections[getSection(state.index)].label} is next.`,
 			/*icon: icon.toDataURL("image/png")*/});
 	}
 
