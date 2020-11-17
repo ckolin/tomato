@@ -138,29 +138,9 @@ const init = () => {
 
 init();
 
-/*
-// donut
-ctx.lineWidth = 20;
-ctx.lineCap = "round";
-ctx.strokeStyle = "green";
-ctx.arc(50, 50, 25, 2, 4);
-ctx.stroke();
-ctx.beginPath();
-ctx.strokeStyle = "red";
-ctx.arc(50, 50, 25, -0.5 * Math.PI, 2);
-ctx.stroke();
-
-
 // save options
-localStorage.setItem("tomato-options", JSON.stringify(options));
-localStorage.getItem("tomato-options");
-*/
-
-// start at current time
-// while cirle not done, add next segments
-// draw segments backwards
-// circle will slowly rotate
-// fade out end?
+//localStorage.setItem("tomato-options", JSON.stringify(options));
+//localStorage.getItem("tomato-options");
 
 // button to pause/unpause and start next sequence
 // spacebar as a shortcut

@@ -28,7 +28,7 @@ body span {
 	font-size: 8em;
 	color: var(--color-current);
 	z-index: -1;
-	opacity: 0.1;
+	opacity: 0.2;
 }
 
 #current-section {
@@ -40,7 +40,6 @@ body span {
 #next-section {
 	text-align: right;
 	color: var(--color-next);
-	filter: brightness(50%);
 	transition: color 400ms;
 	cursor: pointer;
 }
