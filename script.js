@@ -109,7 +109,7 @@ const update = () => {
 	ctx.fillStyle = options.backgroundColor;
 	ctx.fillRect(0, 0, s, s);
 	ctx.fillStyle = section.color;
-	ctx.fillRect(0, 0, s * progress, s);
+	ctx.fillRect(0, 0, Math.round(s * progress), s);
 	const link = document.getElementById("icon");
 	link.href = icon.toDataURL(link.type);
 };
