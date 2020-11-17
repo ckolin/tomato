@@ -86,17 +86,15 @@ const update = () => {
 	const section = options.sections[getSection(state.index)];
 	const progress = 1 - state.remaining / section.duration;
 	let timeLeft = state.remaining >= 60 ? `${Math.round(state.remaining / 60)}` : `${state.remaining}`;
-	if (!state.running)
-		timeLeft = "X";
 
 	// Update GUI elements
 	document.getElementById("current-section").innerText = section.label;
 	document.getElementById("next-section").innerText = options.sections[getSection(state.index + 1)].label;
 	document.getElementById("progress-bar").style.width = `${progress * 100}%`;
-	document.getElementById("time-left").innerText = timeLeft;
+	document.getElementById("time-left").innerText = state.running ? timeLeft : "";
 
 	// Update page title
-	document.title = `${timeLeft} - ${section.label}`;
+	document.title = state.running ? `${timeLeft} - ${section.label}` : section.label;
 	
 	// Update colors
 	const style = document.querySelector(":root").style;
