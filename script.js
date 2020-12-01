@@ -83,24 +83,30 @@ const tick = () => {
 };
 
 const update = () => {
-	const section = options.sections[getSection(state.index)];
-	const progress = 1 - state.remaining / section.duration;
+	const current = options.sections[getSection(state.index)];
+	const next = options.sections[getSection(state.index + 1)];
+	const progress = 1 - state.remaining / current.duration;
 	let timeLeft = state.remaining >= 60 ? `${Math.round(state.remaining / 60)}` : `${state.remaining}`;
 
 	// Update GUI elements
-	document.getElementById("current-section").innerText = section.label;
-	document.getElementById("next-section").innerText = options.sections[getSection(state.index + 1)].label;
+	document.getElementById("current-section").innerText = current.label;
+	document.getElementById("next-section").innerText = next.label;
 	document.getElementById("progress-bar").style.width = `${progress * 100}%`;
 	document.getElementById("time-left").innerText = state.running ? timeLeft : "";
 
 	// Update page title
-	document.title = state.running ? `${timeLeft} - ${section.label}` : section.label;
+	document.title = state.running ? `${timeLeft} - ${current.label}` : current.label;
 	
 	// Update colors
 	const style = document.querySelector(":root").style;
-	style.setProperty("--color-background", options.backgroundColor);
-	style.setProperty("--color-current", options.sections[getSection(state.index)].color);
-	style.setProperty("--color-next", options.sections[getSection(state.index + 1)].color);
+	if (state.running) {
+		style.setProperty("--color-background", options.backgroundColor);
+		style.setProperty("--color-current", current.color);
+	} else {
+		style.setProperty("--color-background", current.color);
+		style.setProperty("--color-current", options.backgroundColor);
+	}
+	style.setProperty("--color-next", next.color);
 
 	// Update favicon
 	const icon = document.createElement("canvas");
@@ -108,7 +114,7 @@ const update = () => {
 	const s = icon.width = icon.height = 32;
 	ctx.fillStyle = options.backgroundColor;
 	ctx.fillRect(0, 0, s, s);
-	ctx.fillStyle = section.color;
+	ctx.fillStyle = current.color;
 	ctx.fillRect(0, 0, Math.round(s * progress), s);
 	const link = document.getElementById("icon");
 	link.href = icon.toDataURL(link.type);
