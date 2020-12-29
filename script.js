@@ -21,7 +21,13 @@ const state = {
 	running: false
 };
 
+// Register web worker
 const worker = new Worker("tick_worker.js");
+
+// Register empty service worker for notifications
+let serviceWorker;
+navigator.serviceWorker.register("empty_worker.js");
+navigator.serviceWorker.ready.then(res => serviceWorker = res);
 
 const getSection = (i) => {
 	if (i % 2 === 0)
@@ -73,8 +79,8 @@ const tick = () => {
 		// Move to next section
 		setSection(state.index + 1);		
 		
-		// Alert user
-		new Notification("Time is up!", {
+		// Show notification
+		serviceWorker.showNotification("Time is up!", {
 			body: `${options.sections[getSection(state.index)].label} is next.`,
 			/*icon: icon.toDataURL("image/png")*/});
 	}
