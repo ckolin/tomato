@@ -85,7 +85,7 @@ const tick = () => {
 			/*icon: icon.toDataURL("image/png")*/});
 
 		// Play audio
-		new Audio("yeehaw_by_shawshank73_from_freesound.mp3").play();
+		new Audio("alert.mp3").play();
 	}
 
 	update();
