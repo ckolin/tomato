@@ -83,6 +83,9 @@ const tick = () => {
 		serviceWorker.showNotification("Time is up!", {
 			body: `${options.sections[getSection(state.index)].label} is next.`,
 			/*icon: icon.toDataURL("image/png")*/});
+
+		// Play audio
+		new Audio("yeehaw_by_shawshank73_from_freesound.mp3").play();
 	}
 
 	update();
