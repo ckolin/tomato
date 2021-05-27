@@ -6,7 +6,7 @@ const dbg = (obj) => {
 };
 
 const options = {
-	sections: {
+	blocks: {
 		work: {label: "WORK", duration: 25 * 60, color: "#f7b58c"},
 		shortBreak: {label: "SHORT BREAK", duration: 5 * 60, color: "#84739c"},
 		longBreak: {label: "LONG BREAK", duration: 15 * 60, color: "#ffefff"}
@@ -31,7 +31,7 @@ if (navigator.serviceWorker) {
 	navigator.serviceWorker.ready.then(res => serviceWorker = res);
 }
 
-const getSection = (i) => {
+const getBlock = (i) => {
 	if (i % 2 === 0)
 		return "work";
 	else if ((i + 1) % (2 * options.longBreakAfter) === 0)
@@ -39,18 +39,18 @@ const getSection = (i) => {
 	else return "shortBreak";
 };
 
-const setSection = (i) => {
+const setBlock = (i) => {
 	stop();
 
 	state.index = i;
-	const section = options.sections[getSection(state.index)];
-	state.remaining = section.duration;
+	const block = options.blocks[getBlock(state.index)];
+	state.remaining = block.duration;
 
 	update();
 };
 
 const skip = () => {
-	setSection(state.index + 1);
+	setBlock(state.index + 1);
 	update();
 };
 
@@ -78,18 +78,18 @@ const tick = () => {
 	state.remaining--;
 	dbg(`${state.remaining} sec remaining`);
 
-	// Check if section has finished
+	// Check if block has finished
 	if (state.remaining === 0) {
 		// Stop the timer
 		stop();
 
-		// Move to next section
-		setSection(state.index + 1);		
+		// Move to next block
+		setBlock(state.index + 1);		
 		
 		// Show notification if possible
 		if (serviceWorker && serviceWorker.showNotification) {
 			serviceWorker.showNotification("Time is up!", {
-				body: `${options.sections[getSection(state.index)].label} is next.`
+				body: `${options.blocks[getBlock(state.index)].label} is next.`
 			});
 		}
 
@@ -101,16 +101,16 @@ const tick = () => {
 };
 
 const update = () => {
-	const current = options.sections[getSection(state.index)];
-	const next = options.sections[getSection(state.index + 1)];
+	const current = options.blocks[getBlock(state.index)];
+	const next = options.blocks[getBlock(state.index + 1)];
 	const progress = 1 - state.remaining / current.duration;
 	const minutes = Math.floor(state.remaining / 60);
 	const seconds = state.remaining - minutes * 60;
 	let timeLeft = `${pad(minutes)}:${pad(seconds)}`;
 
 	// Update GUI elements
-	document.getElementById("current-section").innerText = current.label;
-	document.getElementById("next-section").innerText = next.label;
+	document.getElementById("current-block").innerText = current.label;
+	document.getElementById("next-block").innerText = next.label;
 	document.getElementById("progress-bar").style.width = `${progress * 100}%`;
 	document.getElementById("time-left").innerText = timeLeft;
 	document.getElementById("play-icon").style.display = state.running ? "none" : "initial";
@@ -140,7 +140,7 @@ const update = () => {
 	ctx.fillStyle = current.color;
 	ctx.fillRect(0, 0, Math.round((s - u) * progress), s); // Progress bar
 	ctx.fillStyle = next.color;
-	ctx.fillRect(s - u, 0, u, s); // Next section indicator
+	ctx.fillRect(s - u, 0, u, s); // Next block indicator
 	const link = document.getElementById("icon");
 	link.href = icon.toDataURL(link.type);
 };
@@ -150,7 +150,7 @@ const pad = (n) => n < 10 ? `0${n}` : `${n}`;
 const init = () => {
 	if (dbg()) {
 		// Shorten durations for debugging
-		Object.keys(options.sections).forEach(s => options.sections[s].duration /= 60);
+		Object.keys(options.blocks).forEach(s => options.blocks[s].duration /= 60);
 	}
 
 	// Listen to timer
@@ -166,8 +166,8 @@ const init = () => {
 			editOptions();
 	});
 
-	// Show first section
-	setSection(state.index);
+	// Show first block
+	setBlock(state.index);
 	update();
 };
 
