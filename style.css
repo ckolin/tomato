@@ -14,7 +14,7 @@ body {
 }
 
 main {
-	padding: calc(30vmin - 100px);
+	padding: calc(30vmin - 140px);
 	margin: 1em;
 	display: flex;
 	flex-wrap: wrap;
