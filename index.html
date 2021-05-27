@@ -8,10 +8,21 @@
 	<link id="icon" rel="shortcut icon" type="image/x-icon">
 </head>
 <body>
-	<span id="time-left"></span>
-	<span id="current-section" onclick="toggle()"></span>
 	<div id="progress-bar"></div>
-	<span id="next-section" onclick="setSection(state.index + 1); update()"></span>
+	<main>
+		<div>
+			<label>CURRENT SECTION</label>
+			<p id="current-section"></p>
+			<label>TIME LEFT</label>
+			<p id="time-left"></p>
+			<label>NEXT SECTION</label>
+			<p id="next-section"></p>
+		</div>
+		<div>
+			<button onclick="toggle()">⏯</button>
+			<button onclick="skip()">⏭</button>
+		</div>
+	</main>
 	<script src="script.js"></script>
 </body>
 </html>

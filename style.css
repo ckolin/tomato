@@ -5,48 +5,57 @@
 }
 
 body {
-	position: absolute;
-	width: 60vw;
-	top: 20vh;
-	left: 20vw;
 	margin: 0;
-	font-size: 4em;
+	font-size: calc(4vmin + 20px);
 	font-family: sans-serif;
 	font-weight: bold;
+	color: var(--color-current);
 	background: var(--color-background);
 }
 
-body span {
+main {
+	padding: calc(30vmin - 100px);
+	margin: 1em;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	transition: color 400ms;
+}
+
+main label {
 	display: block;
-	width: 100%;
+	font-size: 0.3em;
+}
+
+main p {
+	margin-top: 0;
+	margin-bottom: 0.3em;
+}
+
+main button {
+	width: 2em;
+	height: 2em;
+	font-size: 1em;
+	line-height: 1em;
+	font-family: inherit;
+	background: var(--color-current);
+	color: var(--color-background);
+	border: none;
+	cursor: pointer;
 }
 
 #time-left {
-	position: absolute;
-	top: -0.3em;
-	text-align: center;
-	font-size: 8em;
-	color: var(--color-current);
-	z-index: -1;
-	opacity: 0.2;
-}
-
-#current-section {
-	color: var(--color-current);
-	transition: color 400ms;
-	cursor: pointer;
-}
-
-#next-section {
-	text-align: right;
-	color: var(--color-next);
-	transition: color 400ms;
-	cursor: pointer;
+	font-size: 2em;
 }
 
 #progress-bar {
-	height: 1em;
-	margin: 0.5em 0 0.5em 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100vh;
 	background: var(--color-current);
+	opacity: 0.2;
 	transition: width 200ms, color 400ms;
+	pointer-events: none;
+	z-index: -1;
 }

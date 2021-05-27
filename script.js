@@ -49,6 +49,11 @@ const setSection = (i) => {
 	update();
 };
 
+const skip = () => {
+	setSection(state.index + 1);
+	update();
+};
+
 const start = () => {
 	dbg("starting timer");
 	worker.postMessage("start");
@@ -99,17 +104,19 @@ const update = () => {
 	const current = options.sections[getSection(state.index)];
 	const next = options.sections[getSection(state.index + 1)];
 	const progress = 1 - state.remaining / current.duration;
-	let timeLeft = state.remaining >= 60 ? `${Math.round(state.remaining / 60)}` : `${state.remaining}`;
+	const minutes = Math.floor(state.remaining / 60);
+	const seconds = state.remaining - minutes * 60;
+	let timeLeft = `${pad(minutes)}:${pad(seconds)}`;
 
 	// Update GUI elements
 	document.getElementById("current-section").innerText = current.label;
 	document.getElementById("next-section").innerText = next.label;
 	document.getElementById("progress-bar").style.width = `${progress * 100}%`;
-	document.getElementById("time-left").innerText = state.running ? timeLeft : "";
+	document.getElementById("time-left").innerText = timeLeft;
 
 	// Update page title
 	document.title = state.running ? `${timeLeft} - ${current.label}` : current.label;
-	
+
 	// Update colors
 	const style = document.querySelector(":root").style;
 	if (state.running) {
@@ -125,13 +132,18 @@ const update = () => {
 	const icon = document.createElement("canvas");
 	const ctx = icon.getContext("2d");
 	const s = icon.width = icon.height = 32;
+	const u = s / 8;
 	ctx.fillStyle = options.backgroundColor;
-	ctx.fillRect(0, 0, s, s);
+	ctx.fillRect(0, 0, s, s); // Background
 	ctx.fillStyle = current.color;
-	ctx.fillRect(0, 0, Math.round(s * progress), s);
+	ctx.fillRect(0, 0, Math.round((s - u) * progress), s); // Progress bar
+	ctx.fillStyle = next.color;
+	ctx.fillRect(s - u, 0, u, s); // Next section indicator
 	const link = document.getElementById("icon");
 	link.href = icon.toDataURL(link.type);
 };
+
+const pad = (n) => n < 10 ? `0${n}` : `${n}`;
 
 const init = () => {
 	if (dbg()) {
@@ -142,10 +154,14 @@ const init = () => {
 	// Listen to timer
 	worker.addEventListener("message", tick);
 
-	// Register spacebar shortcut
+	// Register shortcuts
 	document.addEventListener("keyup", e => {
-		if (e.key === " ")
+		if (e.key === "k")
 			toggle();
+		else if (e.key === "l")
+			skip();
+		else if (e.key === "o")
+			editOptions();
 	});
 
 	// Show first section
