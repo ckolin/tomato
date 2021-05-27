@@ -94,7 +94,7 @@ const tick = () => {
 		}
 
 		// Play audio
-		new Audio("alert.mp3").play();
+		new Audio("assets/alert.mp3").play();
 	}
 
 	update();
