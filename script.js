@@ -154,19 +154,3 @@ const init = () => {
 };
 
 init();
-
-// save options
-//localStorage.setItem("tomato-options", JSON.stringify(options));
-//localStorage.getItem("tomato-options");
-
-// button to pause/unpause and start next sequence
-// spacebar as a shortcut
-// notification
-// remaining time displayed in title and on page
-// settings that can be toggled
-// work, short break, long break
-// store settings in localstorage
-// dark/light theme from system setting?
-// favicon that shows progress
-
-// web worker for time updates
