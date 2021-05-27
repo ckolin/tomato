@@ -4,8 +4,14 @@
 	--color-next: #000;
 }
 
+@font-face {
+	font-family: "Inter Black";
+	src: url("assets/inter_black.woff");
+}
+
 body {
 	margin: 0;
+	font-family: "Inter Black", sans-serif;
 	font-size: calc(4vmin + 20px);
 	font-family: sans-serif;
 	font-weight: bold;
@@ -19,6 +25,7 @@ main {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
+	font-family: "Inter Black", sans-serif;
 	transition: color 400ms;
 }
 
