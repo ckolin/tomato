@@ -32,6 +32,7 @@ main {
 main label {
 	display: block;
 	font-size: 0.3em;
+	text-transform: uppercase;
 }
 
 main p {
