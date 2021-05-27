@@ -39,16 +39,23 @@ main p {
 	margin-bottom: 0.3em;
 }
 
-main button {
-	width: 2em;
-	height: 2em;
-	font-size: 1em;
-	line-height: 1em;
-	font-family: inherit;
+button {
+	font-size: inherit;
+	display: inline-block;
+	padding: 0.5em;
+	line-height: 0;
 	background: var(--color-current);
-	color: var(--color-background);
 	border: none;
 	cursor: pointer;
+}
+
+button svg {
+	width: 1.5em;
+	height: 1.5em;
+}
+
+button path {
+	fill: var(--color-background);
 }
 
 #time-left {

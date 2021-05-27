@@ -113,6 +113,8 @@ const update = () => {
 	document.getElementById("next-section").innerText = next.label;
 	document.getElementById("progress-bar").style.width = `${progress * 100}%`;
 	document.getElementById("time-left").innerText = timeLeft;
+	document.getElementById("play-icon").style.display = state.running ? "none" : "initial";
+	document.getElementById("pause-icon").style.display = state.running ? "initial" : "none";
 
 	// Update page title
 	document.title = state.running ? `${timeLeft} - ${current.label}` : current.label;
