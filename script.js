@@ -138,9 +138,10 @@ const update = () => {
 	ctx.fillStyle = options.backgroundColor;
 	ctx.fillRect(0, 0, s, s); // Background
 	ctx.fillStyle = current.color;
-	ctx.fillRect(0, 0, Math.round((s - u) * progress), s); // Progress bar
+	ctx.fillRect(0, 2 * u, u, s - 4 * u); // Current block indicator
+	ctx.fillRect(0, 0, Math.round(s * progress), s); // Progress bar
 	ctx.fillStyle = next.color;
-	ctx.fillRect(s - u, 0, u, s); // Next block indicator
+	ctx.fillRect(s - u, 2 * u, u, s - 4 * u); // Next block indicator
 	const link = document.getElementById("icon");
 	link.href = icon.toDataURL(link.type);
 };
