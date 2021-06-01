@@ -13,19 +13,16 @@ body {
 	margin: 0;
 	font-family: "Inter Black", sans-serif;
 	font-size: calc(4vmin + 20px);
-	font-family: sans-serif;
-	font-weight: bold;
 	color: var(--color-current);
 	background: var(--color-background);
 }
 
 main {
-	padding: calc(30vmin - 140px);
 	margin: 1em;
+	padding: calc(30vmin - 140px);
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
-	font-family: "Inter Black", sans-serif;
 	transition: color 400ms;
 }
 
@@ -41,9 +38,9 @@ main p {
 }
 
 button {
-	font-size: inherit;
 	display: inline-block;
 	padding: 0.5em;
+	font-size: inherit;
 	line-height: 0;
 	background: var(--color-current);
 	border: none;
