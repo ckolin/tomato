@@ -121,13 +121,10 @@ const update = () => {
 
 	// Update colors
 	const style = document.querySelector(":root").style;
-	if (state.running) {
-		style.setProperty("--color-background", options.backgroundColor);
-		style.setProperty("--color-current", current.color);
-	} else {
-		style.setProperty("--color-background", current.color);
-		style.setProperty("--color-current", options.backgroundColor);
-	}
+	style.setProperty("--color-background",
+		state.running ? options.backgroundColor : current.color);
+	style.setProperty("--color-current",
+		state.running ? current.color : options.backgroundColor);
 	style.setProperty("--color-next", next.color);
 
 	// Update favicon
@@ -135,13 +132,23 @@ const update = () => {
 	const ctx = icon.getContext("2d");
 	const s = icon.width = icon.height = 32;
 	const u = s / 8;
-	ctx.fillStyle = options.backgroundColor;
-	ctx.fillRect(0, 0, s, s); // Background
-	ctx.fillStyle = current.color;
-	ctx.fillRect(0, 2 * u, u, s - 4 * u); // Current block indicator
-	ctx.fillRect(0, 0, Math.round(s * progress), s); // Progress bar
-	ctx.fillStyle = next.color;
-	ctx.fillRect(s - u, 2 * u, u, s - 4 * u); // Next block indicator
+	if (state.running) {
+		ctx.fillStyle = options.backgroundColor;
+		ctx.fillRect(0, 0, s, s); // Background
+		ctx.fillStyle = current.color;
+		ctx.fillRect(0, 2 * u, u, s - 4 * u); // Current block indicator
+		ctx.fillRect(0, 0, Math.round(s * progress), s); // Progress bar
+		ctx.fillStyle = next.color;
+		ctx.fillRect(s - u, 2 * u, u, s - 4 * u); // Next block indicator
+	} else {
+		ctx.fillStyle = current.color;
+		ctx.fillRect(0, 0, s, s); // Background
+		if (progress > 0) {
+			ctx.fillStyle = options.backgroundColor;
+			ctx.fillRect(2.5 * u, 2 * u, u, s - 4 * u); // Left pause bar
+			ctx.fillRect(s - 3.5 * u, 2 * u, u, s - 4 * u); // Right pause bar
+		}
+	}
 	const link = document.getElementById("icon");
 	link.href = icon.toDataURL(link.type);
 };
