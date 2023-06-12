@@ -132,6 +132,9 @@ const update = () => {
 	const ctx = icon.getContext("2d");
 	const s = icon.width = icon.height = 32;
 	const u = s / 8;
+	ctx.beginPath();
+	ctx.roundRect(0, 0, s, s, u);
+	ctx.clip();
 	if (state.running) {
 		ctx.fillStyle = options.backgroundColor;
 		ctx.fillRect(0, 0, s, s); // Background
