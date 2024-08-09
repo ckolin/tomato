@@ -9,6 +9,10 @@
 	src: url("assets/inter_black.woff");
 }
 
+* {
+	text-transform: uppercase;
+}
+
 body {
 	margin: 0;
 	font-family: "Inter Black", sans-serif;
@@ -29,7 +33,6 @@ main {
 main label {
 	display: block;
 	font-size: 0.3em;
-	text-transform: uppercase;
 }
 
 main p {

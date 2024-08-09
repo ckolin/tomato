@@ -7,12 +7,12 @@ const dbg = (obj) => {
 
 const options = {
 	blocks: {
-		work: {label: "WORK", duration: 25 * 60, color: "#f7b58c"},
-		shortBreak: {label: "SHORT BREAK", duration: 5 * 60, color: "#84739c"},
-		longBreak: {label: "LONG BREAK", duration: 15 * 60, color: "#ffefff"}
+		work: {label: "Work", duration: 25 * 60, color: "#d3ae21"},
+		shortBreak: {label: "Short break", duration: 5 * 60, color: "#d4c9c3"},
+		longBreak: {label: "Long break", duration: 15 * 60, color: "#635650"}
 	},
 	longBreakAfter: 4,
-	backgroundColor: "#181010"
+	backgroundColor: "#1c1412"
 };
 
 const state = {
@@ -88,7 +88,7 @@ const tick = () => {
 		
 		// Show notification if possible
 		if (serviceWorker && serviceWorker.showNotification) {
-			serviceWorker.showNotification("Time is up!", {
+			serviceWorker.showNotification("Time's up!", {
 				body: `${options.blocks[getBlock(state.index)].label} is next.`
 			});
 		}
