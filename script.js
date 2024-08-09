@@ -7,12 +7,12 @@ const dbg = (obj) => {
 
 const options = {
 	blocks: {
-		work: {label: "Work", duration: 25 * 60, color: "#d3ae21"},
-		shortBreak: {label: "Short break", duration: 5 * 60, color: "#d4c9c3"},
-		longBreak: {label: "Long break", duration: 15 * 60, color: "#635650"}
+		work: {label: "Work", duration: 25 * 60, color: "#d75555"},
+		shortBreak: {label: "Short break", duration: 5 * 60, color: "#556fd7"},
+		longBreak: {label: "Long break", duration: 15 * 60, color: "#d2b7ff"}
 	},
 	longBreakAfter: 4,
-	backgroundColor: "#1c1412"
+	backgroundColor: "#060010"
 };
 
 const state = {
