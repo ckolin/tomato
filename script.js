@@ -117,7 +117,7 @@ const update = () => {
 	document.getElementById("pause-icon").style.display = state.running ? "initial" : "none";
 
 	// Update page title
-	document.title = state.running ? `${current.label} - ${timeLeft}` : current.label;
+	document.title = `${current.label} - Tomato`;
 
 	// Update colors
 	const style = document.querySelector(":root").style;
