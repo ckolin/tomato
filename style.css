@@ -48,6 +48,7 @@ button {
 	line-height: 0;
 	background: var(--color-current);
 	border: none;
+	border-radius: 50%;
 	cursor: pointer;
 }
 
