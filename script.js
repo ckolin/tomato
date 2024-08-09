@@ -7,9 +7,9 @@ const dbg = (obj) => {
 
 const options = {
 	blocks: {
-		work: {label: "Work", duration: 25 * 60, color: "#d75555"},
-		shortBreak: {label: "Short break", duration: 5 * 60, color: "#556fd7"},
-		longBreak: {label: "Long break", duration: 15 * 60, color: "#d2b7ff"}
+		work: { label: "Work", duration: 25 * 60, color: "#d75555" },
+		shortBreak: { label: "Short break", duration: 5 * 60, color: "#556fd7" },
+		longBreak: { label: "Long break", duration: 15 * 60, color: "#d2b7ff" }
 	},
 	longBreakAfter: 4,
 	backgroundColor: "#060010"
@@ -84,8 +84,8 @@ const tick = () => {
 		stop();
 
 		// Move to next block
-		setBlock(state.index + 1);		
-		
+		setBlock(state.index + 1);
+
 		// Show notification if possible
 		if (serviceWorker && serviceWorker.showNotification) {
 			serviceWorker.showNotification("Time's up!", {
@@ -139,17 +139,22 @@ const update = () => {
 		ctx.fillStyle = options.backgroundColor;
 		ctx.fillRect(0, 0, s, s); // Background
 		ctx.fillStyle = current.color;
-		ctx.fillRect(0, 2 * u, u, s - 4 * u); // Current block indicator
 		ctx.fillRect(0, 0, Math.round(s * progress), s); // Progress bar
+		// Current/next block indicators
+		ctx.beginPath();
+		ctx.arc(-u, 4 * u, 3 * u, 0, 2 * Math.PI);
+		ctx.fill();
 		ctx.fillStyle = next.color;
-		ctx.fillRect(s - u, 2 * u, u, s - 4 * u); // Next block indicator
+		ctx.beginPath();
+		ctx.arc(s + u, 4 * u, 3 * u, 0, 2 * Math.PI);
+		ctx.fill();
 	} else {
 		ctx.fillStyle = current.color;
 		ctx.fillRect(0, 0, s, s); // Background
 		if (progress > 0) {
 			ctx.fillStyle = options.backgroundColor;
-			ctx.fillRect(2.5 * u, 2 * u, u, s - 4 * u); // Left pause bar
-			ctx.fillRect(s - 3.5 * u, 2 * u, u, s - 4 * u); // Right pause bar
+			ctx.fillRect(2.5 * u, 2 * u, u, 4 * u); // Left pause bar
+			ctx.fillRect(4.5 * u, 2 * u, u, 4 * u); // Right pause bar
 		}
 	}
 	const link = document.getElementById("icon");
